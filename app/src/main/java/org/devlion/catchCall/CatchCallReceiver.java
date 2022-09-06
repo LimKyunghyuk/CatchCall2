@@ -36,6 +36,13 @@ public class CatchCallReceiver extends BroadcastReceiver {
 //            context.startService(serviceIntent);
 //            Log.d(TAG, "Call:"+incomingNumber);
 
+        }else if(TelephonyManager.EXTRA_STATE_OFFHOOK.equals(state)){
+            Log.d(TAG, "EXTRA_STATE_OFFHOOK 전화수신");
+
+
+        }else if(TelephonyManager.EXTRA_STATE_IDLE.equals(state)){
+            Log.d(TAG, "EXTRA_STATE_IDLE 전화거절/통화밸 종료");
+
         }
     }
 }
