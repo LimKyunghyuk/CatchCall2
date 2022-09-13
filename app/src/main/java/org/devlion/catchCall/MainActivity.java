@@ -1,22 +1,25 @@
 package org.devlion.catchCall;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.devlion.util.cmn.Receiver;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import org.devlion.util.cmn.HttpHelper;
+import org.devlion.util.cmn.Receiver;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -29,9 +32,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checkPermission();
+        checkPermissionDrawOverlay();
 
         HttpHelper httpHelper = new HttpHelper();
         httpHelper.setReceiver(new Receiver() {
@@ -42,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        txv = findViewById(R.id.txv);
+        txv = findViewById(R.id.tv_hello);
         txv.setText("Hello");
 
-        Button btn = findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
+        Button btnRequest = findViewById(R.id.btn_request);
+        btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Click!", Toast.LENGTH_SHORT).show();
@@ -56,17 +61,38 @@ public class MainActivity extends AppCompatActivity {
                 httpHelper.doGet(req);
             }
         });
+
+
+        Button crashButton = findViewById(R.id.btn_crash);
+        crashButton.setText("Test Crash");
+        crashButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                throw new RuntimeException("Test Crash"); // Force a crash
+            }
+        });
     }
 
     public void checkPermission(){
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-
+                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(MainActivity.this
-                    , new String[]{Manifest.permission.READ_CALL_LOG
-                            , Manifest.permission.READ_PHONE_STATE}
+                    , new String[]{
+                              Manifest.permission.READ_CALL_LOG
+                            , Manifest.permission.READ_PHONE_STATE
+                    }
                     ,1);
+        }
+    }
+
+    public void checkPermissionDrawOverlay(){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(!Settings.canDrawOverlays(getApplicationContext())){
+                Intent overlayIntent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                startActivity(overlayIntent);
+            }
         }
     }
 
