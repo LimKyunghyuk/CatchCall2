@@ -2,26 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#f00"
+    android:background="#7FB77E"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="5dp">
 
     <TextView
-        android:id="@+id/tv_call_number"
+        android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text=""
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        android:text="010-1234-1234"
+        android:textColor="#F7F6DC"
+        android:textSize="30sp"
+        android:padding="5dp"
+        />
 
     <ImageButton
         android:id="@+id/btn_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/github" />
+        android:src="@drawable/logo"
+        android:adjustViewBounds="true"
 
 
+        />
 </LinearLayout>
