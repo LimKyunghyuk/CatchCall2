@@ -60,6 +60,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button btnPopupOpen = findViewById(R.id.btn_popup_open);
+        btnPopupOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Popup.getInstance(getApplicationContext()).open("1","2");
+            }
+        });
+
+        Button btnPopupClose = findViewById(R.id.btn_popup_close);
+        btnPopupClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Popup.getInstance(getApplicationContext()).close();
+            }
+        });
+
 
         Button crashButton = findViewById(R.id.btn_crash);
         crashButton.setText("Test Crash");

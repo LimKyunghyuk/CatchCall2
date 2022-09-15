@@ -6,6 +6,7 @@ import android.graphics.PixelFormat;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowInsets;
@@ -34,8 +35,8 @@ public class Popup {
         return singleton;
     }
 
-    public void open(String phoneNumber){
-
+    public void open(String team, String name){
+        Log.d(TAG, "Popup.open()");
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
         int width = (int) (getScreenWidth() * 0.9);
@@ -59,11 +60,16 @@ public class Popup {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rootView = layoutInflater.inflate(R.layout.call_popup, null);
 
-        TextView tvCallNumber = rootView.findViewById(R.id.tv_description);
+        TextView tvTopDescription = rootView.findViewById(R.id.tv_top_description);
+        TextView tvBottomDescription = rootView.findViewById(R.id.tv_bottom_description);
         ImageButton btnClose = rootView.findViewById(R.id.btn_close);
 
-        if (!TextUtils.isEmpty(phoneNumber)) {
-            tvCallNumber.setText(phoneNumber);
+        if (!TextUtils.isEmpty(team)) {
+            tvTopDescription.setText(team);
+        }
+
+        if (!TextUtils.isEmpty(name)) {
+            tvBottomDescription.setText(name);
         }
 
         btnClose.setOnClickListener(new View.OnClickListener() {
@@ -75,9 +81,18 @@ public class Popup {
 
         windowManager.addView(rootView, layoutParams);
         isOpen = true;
+
+        Log.d(TAG, "rootView: " + rootView);
+        Log.d(TAG, "windowManager: " + windowManager);
+        Log.d(TAG, "isOpen: " + isOpen);
     }
 
     public void close() {
+        Log.d(TAG, "Popup.close()");
+        Log.d(TAG, "rootView: " + rootView);
+        Log.d(TAG, "windowManager: " + windowManager);
+        Log.d(TAG, "isOpen: " + isOpen);
+
         if (rootView != null && windowManager != null && isOpen == true){
             windowManager.removeView(rootView);
             isOpen = false;

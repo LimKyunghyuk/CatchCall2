@@ -16,6 +16,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.devlion.util.cmn.HttpHelper;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static android.content.Context.WINDOW_SERVICE;
 import static androidx.core.content.ContextCompat.getSystemService;
 
@@ -36,17 +43,48 @@ public class CatchCallReceiver extends BroadcastReceiver {
         if(TelephonyManager.EXTRA_STATE_RINGING.equals(state)) {
 
             final String phoneNumber = PhoneNumberUtils.formatNumber(incomingNumber);
+            Log.d(TAG, "incomingNumber:" + incomingNumber);
             Log.d(TAG, "phoneNumber:" + phoneNumber);
 
-            Popup.getInstance(context).open(phoneNumber);
+            // API 리스너 정의
+            HttpHelper httpHelper = new HttpHelper();
+            httpHelper.setHttpListener(new HttpHelper.HttpListener() {
+                @Override
+                public void onResponse(int resCode, JSONObject res) {
+                    Log.d(TAG, "resCode: " + resCode + ", res: " + res);
+
+                    try {
+                        if(res != null && "S".equals(res.get("result"))){
+
+                            String team = (String)res.get("team");
+                            String name = (String)res.get("name");;
+
+                            Popup p = Popup.getInstance(context);
+                            Log.d(TAG, "open p: " + p);
+                            p.open(team, name);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            
+            // API 호출
+            Map<String, String> req = new HashMap<String, String>();
+            req.put("option",incomingNumber);
+            httpHelper.doGet(req);
 
         }else if(TelephonyManager.EXTRA_STATE_OFFHOOK.equals(state)){
             Log.d("CatchCall", "EXTRA_STATE_OFFHOOK 전화수신");
-            Popup.getInstance(context).close();
+            Popup p = Popup.getInstance(context);
+            Log.d(TAG, "close p: " + p);
+            p.close();
 
         }else if(TelephonyManager.EXTRA_STATE_IDLE.equals(state)){
             Log.d("CatchCall", "EXTRA_STATE_IDLE 전화거절/통화밸 종료");
-            Popup.getInstance(context).close();
+            Popup p = Popup.getInstance(context);
+            Log.d(TAG, "close p: " + p);
+            p.close();
         }
     }
 
