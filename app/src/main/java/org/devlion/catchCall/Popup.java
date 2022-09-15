@@ -22,7 +22,7 @@ public class Popup {
     WindowManager windowManager;
     View rootView;
 
-    Boolean isOpen; // 전화거절/통화밸 종료/전화 수신 전에 팝업을 먼저 종료할 경우, removeView() 두 번 호출 방지
+    boolean isOpen; // 전화거절/통화밸 종료/전화 수신 전에 팝업을 먼저 종료할 경우, removeView() 두 번 호출 방지
 
     private static Popup singleton;
 
@@ -37,6 +37,9 @@ public class Popup {
 
     public void open(String team, String name){
         Log.d(TAG, "Popup.open()");
+
+        if(isOpen) return;
+
         windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
         int width = (int) (getScreenWidth() * 0.9);
@@ -93,7 +96,9 @@ public class Popup {
         Log.d(TAG, "windowManager: " + windowManager);
         Log.d(TAG, "isOpen: " + isOpen);
 
-        if (rootView != null && windowManager != null && isOpen == true){
+        if(!isOpen) return;
+
+        if (rootView != null && windowManager != null){
             windowManager.removeView(rootView);
             isOpen = false;
         }

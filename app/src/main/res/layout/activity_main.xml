@@ -21,6 +21,37 @@
         />
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        />
+
+
+    <Button
         android:id="@+id/btn_popup_open"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,6 +64,7 @@
         android:layout_height="wrap_content"
         android:text="Popup close"
         />
+
 
     <Button
         android:id="@+id/btn_crash"
