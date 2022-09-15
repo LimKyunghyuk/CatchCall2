@@ -21,9 +21,13 @@ public class HttpHelper{
     final String TAG = "CATCH_CALL";
     public String CALL_SEVER_URL = "http://yorsild.dothome.co.kr/call.php";
     public int TIME_OUT = 3000;
-    private Receiver receiver;
+    private HttpListener receiver;
 
-    public void setReceiver(Receiver receiver){
+    public interface HttpListener {
+        void onResponse(int resCode, JSONObject res);
+    }
+
+    public void setHttpListener(HttpListener receiver){
         this.receiver = receiver;
     }
 

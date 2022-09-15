@@ -13,13 +13,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.devlion.util.cmn.HttpHelper;
-import org.devlion.util.cmn.Receiver;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         checkPermissionDrawOverlay();
 
         HttpHelper httpHelper = new HttpHelper();
-        httpHelper.setReceiver(new Receiver() {
+        httpHelper.setHttpListener(new HttpHelper.HttpListener() {
             @Override
             public void onResponse(int resCode, JSONObject res) {
                 Log.d(TAG, "resCode: " + resCode + ", res: " + res);
