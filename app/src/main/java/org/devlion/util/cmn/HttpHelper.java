@@ -97,10 +97,14 @@ public class HttpHelper{
                 conn.setRequestProperty("Accept", "application/json");
                 conn.setConnectTimeout(TIME_OUT);
                 conn.setReadTimeout(TIME_OUT);
-                conn.setDoOutput(true);
                 conn.setDoInput(true);
+                conn.setDoOutput(false);
+
 
                 resCode = conn.getResponseCode();
+
+                Log.d(TAG, "resCode : " + resCode);
+
                 if (resCode == HttpURLConnection.HTTP_OK) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     String line;
@@ -112,6 +116,9 @@ public class HttpHelper{
                     reader.close();
                     res = response.toString();
                 }
+
+                Log.d(TAG, "==================");
+                Log.d(TAG, res);
 
                 Message msg = handler.obtainMessage();
 
@@ -139,6 +146,7 @@ public class HttpHelper{
 
             JSONObject responseJSON = null;
             try {
+                Log.d(TAG, res);
                 responseJSON = new JSONObject(res);
             } catch (JSONException e) {
                 e.printStackTrace();
