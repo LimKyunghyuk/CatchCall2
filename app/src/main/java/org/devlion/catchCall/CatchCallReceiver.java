@@ -59,10 +59,11 @@ public class CatchCallReceiver extends BroadcastReceiver {
             String serverUrl = SharedPrefHelper.getInstance(context).getString(SharedPrefHelper.SERVER_URL);
             String serverKey = SharedPrefHelper.getInstance(context).getString(SharedPrefHelper.SERVER_KEY);
 
+            serverUrl = "https://" + serverUrl;
+            serverUrl += "/monitoring.app/api/getUser";
+
             Log.d(TAG, "SERVER_URL:" + serverUrl);
             Log.d(TAG, "SERVER_KEY:" + serverKey);
-
-            serverUrl += "https://" + serverUrl + "/monitoring.app/api/getUser";
 
             // API 리스너 정의
             HttpHelper httpHelper = new HttpHelper(serverUrl, serverKey);
