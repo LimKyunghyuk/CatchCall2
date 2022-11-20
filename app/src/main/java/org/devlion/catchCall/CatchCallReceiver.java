@@ -3,6 +3,7 @@ package org.devlion.catchCall;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.telephony.PhoneNumberUtils;
@@ -20,7 +21,9 @@ import org.devlion.util.cmn.HttpHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.WINDOW_SERVICE;
@@ -46,32 +49,59 @@ public class CatchCallReceiver extends BroadcastReceiver {
             Log.d(TAG, "incomingNumber:" + incomingNumber);
             Log.d(TAG, "phoneNumber:" + phoneNumber);
 
+//
+//            SharedPreferences sharedPref = context.getSharedPreferences(TAG, context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedPref.edit();
+//            editor.putString(SERVER_URL, edtServerUrl.getText().toString());
+//            editor.putString(SERVER_KEY, edtServerKey.getText().toString());
+//            editor.commit();
+
+            String serverUrl = SharedPrefHelper.getInstance(context).getString(SharedPrefHelper.SERVER_URL);
+            String serverKey = SharedPrefHelper.getInstance(context).getString(SharedPrefHelper.SERVER_KEY);
+
+            Log.d(TAG, "SERVER_URL:" + serverUrl);
+            Log.d(TAG, "SERVER_KEY:" + serverKey);
+
+            serverUrl += "https://" + serverUrl + "/monitoring.app/api/getUser";
+
             // API 리스너 정의
-            HttpHelper httpHelper = new HttpHelper();
+            HttpHelper httpHelper = new HttpHelper(serverUrl, serverKey);
             httpHelper.setHttpListener(new HttpHelper.HttpListener() {
                 @Override
                 public void onResponse(int resCode, JSONObject res) {
                     Log.d(TAG, "resCode: " + resCode + ", res: " + res);
 
                     try {
-                        if(res != null && "S".equals(res.get("result"))){
+                        if(res != null){
 
-                            String team = (String)res.get("team");
-                            String name = (String)res.get("name");;
+                            String cellPhone = (String)res.get("cellPhone");
+                            String companyPhone = (String)res.get("companyPhone");
+                            String companyCode = (String)res.get("companyCode");
+                            String addisplayName = (String)res.get("addisplayName");
+                            String chargeJob = (String)res.get("chargeJob");
+                            String mainDeptCode = (String)res.get("mainDeptCode");
+                            String companyName = (String)res.get("companyName");
+                            String deptName = (String)res.get("deptName");
 
                             Popup p = Popup.getInstance(context);
                             Log.d(TAG, "open p: " + p);
-                            p.open(team, name);
+
+                            p.open(companyName, addisplayName, deptName, chargeJob);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             });
-            
+
+
+            List<String> numberList = getTwoNumberFromBack(phoneNumber);
+            if(numberList.size() < 3) return;
+
             // API 호출
             Map<String, String> req = new HashMap<String, String>();
-            req.put("option",incomingNumber);
+            req.put("enumber",numberList.get(0));
+            req.put("cnumber",numberList.get(1));
             httpHelper.doGet(req);
 
         }else if(TelephonyManager.EXTRA_STATE_OFFHOOK.equals(state)){
@@ -86,6 +116,18 @@ public class CatchCallReceiver extends BroadcastReceiver {
             Log.d(TAG, "close p: " + p);
             p.close();
         }
+    }
+
+    List<String> getTwoNumberFromBack(String phoneNumber){
+
+        List<String> numberList = new ArrayList<String>();
+        String[] numberAry = phoneNumber.split("-");
+
+        for(int i = numberAry.length - 1 ; 0 <= i ; i--) {
+            numberList.add(numberAry[i]);
+        }
+
+        return numberList;
     }
 
 }

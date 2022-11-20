@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#7FB77E"
+    android:background="@drawable/btn_blue"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="5dp">
@@ -13,32 +13,54 @@
         android:layout_weight="8"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/tv_top_description"
+            android:id="@+id/tv_popup_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="우리나라팀"
-            android:textColor="#F7F6DC"
-            android:textSize="30sp"
-            android:padding="5dp"
+            android:text="회사명"
+            android:textColor="@color/color_4"
+            android:textSize="20sp"
+            android:padding="3dp"
             />
 
         <TextView
-            android:id="@+id/tv_bottom_description"
+            android:id="@+id/tv_popup_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="홍길동 대리"
-            android:textColor="#F7F6DC"
+            android:textColor="@color/color_4"
+            android:textSize="30sp"
+            android:padding="3dp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_popup_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="테스트 팀"
+            android:textColor="@color/color_4"
             android:textSize="20sp"
-            android:padding="5dp"
+            android:padding="3dp"
+            />
+        <TextView
+            android:id="@+id/tv_popup_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="담당 업무"
+            android:textColor="@color/color_4"
+            android:textSize="15sp"
+            android:padding="3dp"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="right"
+        android:gravity="center_horizontal|center_vertical"
         android:layout_weight="1">
         <ImageButton
             android:id="@+id/btn_close"

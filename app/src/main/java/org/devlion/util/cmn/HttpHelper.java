@@ -19,12 +19,19 @@ import java.util.Map;
 public class HttpHelper{
 
     final String TAG = "CATCH_CALL";
-    public String CALL_SEVER_URL = "http://yorsild.dothome.co.kr/call.php";
+    final String SEVER_URL;
+    final String SEVER_KEY;
+
     public int TIME_OUT = 3000;
     private HttpListener receiver;
 
     public interface HttpListener {
         void onResponse(int resCode, JSONObject res);
+    }
+
+    public HttpHelper(String serverUrl, String serverKey){
+        SEVER_URL = serverUrl;
+        SEVER_KEY = serverKey;
     }
 
     public void setHttpListener(HttpListener receiver){
@@ -88,13 +95,14 @@ public class HttpHelper{
                 }
 
                 // URL GET 호출
-                Log.d(TAG, "URL: " + CALL_SEVER_URL + urlPrams);
-                URL url = new URL(CALL_SEVER_URL + urlPrams);
+                Log.d(TAG, "URL: " + SEVER_URL + urlPrams);
+                URL url = new URL(SEVER_URL + urlPrams);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Cache-Control", "no-cache");
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("sk", SEVER_KEY);
                 conn.setConnectTimeout(TIME_OUT);
                 conn.setReadTimeout(TIME_OUT);
                 conn.setDoInput(true);

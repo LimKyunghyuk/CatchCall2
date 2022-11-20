@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/header_setting"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_4"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:orientation="vertical">
+            <TextView
+                android:textColor="@color/color_1"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="서버 주소"
+                />
+
+            <EditText
+                android:id="@+id/edt_server_url"
+                android:textSize="18sp"
+                android:textColor="@color/color_1"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:textSize="18sp"
+                android:textColor="@color/color_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="서버 키"
+                />
+
+            <EditText
+                android:id="@+id/edt_server_key"
+                android:textSize="18sp"
+                android:textColor="@color/color_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <Button
+                android:id="@+id/btn_test_popup"
+                android:layout_width="120sp"
+                android:layout_height="40sp"
+                android:text="팝업 미리보기"
+                android:textColor="@color/color_4"
+                android:background="@drawable/btn_blue"
+                android:contentDescription="설정" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_4"
+        >
+        <Button
+            android:id="@+id/btn_save"
+            android:text="저장"
+            android:background="@drawable/btn_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+</LinearLayout>

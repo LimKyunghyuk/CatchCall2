@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "534519627143",
+    "project_id": "appcrashtest-de61d",
+    "storage_bucket": "appcrashtest-de61d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534519627143:android:f029ff333b2d98c2cee722",
+        "android_client_info": {
+          "package_name": "org.devlion.catchCall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534519627143-8oub3rk01qgt2lgu961mtj02tbv9m80v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcfIFiH4lGVQc3dEVVT14w0v4qvtQnQ0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534519627143-8oub3rk01qgt2lgu961mtj02tbv9m80v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

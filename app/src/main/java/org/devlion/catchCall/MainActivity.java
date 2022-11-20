@@ -9,7 +9,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +24,9 @@ import androidx.core.content.ContextCompat;
 import org.devlion.util.cmn.HttpHelper;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +42,36 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();
         checkPermissionDrawOverlay();
 
+
+        ImageButton btnConfig = findViewById(R.id.btn_setting);
+        btnConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Click!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        List<String> list = new ArrayList<>();
+        list.add("사과");
+        list.add("딸기");
+        list.add("바나나");
+
+        ListView listView = findViewById(R.id.list);
+        ArrayAdapter<String> adpater = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adpater);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String data = (String) parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), "List position : " + position + ", data : " + data , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        /*
         HttpHelper httpHelper = new HttpHelper();
         httpHelper.setHttpListener(new HttpHelper.HttpListener() {
             @Override
@@ -84,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                 throw new RuntimeException("Test Crash"); // Force a crash
             }
         });
+
+         */
     }
 
     public void checkPermission(){

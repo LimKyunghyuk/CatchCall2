@@ -35,7 +35,7 @@ public class Popup {
         return singleton;
     }
 
-    public void open(String team, String name){
+    public void open(String company, String name, String team, String work){
         Log.d(TAG, "Popup.open()");
 
         if(isOpen) return;
@@ -63,16 +63,28 @@ public class Popup {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rootView = layoutInflater.inflate(R.layout.call_popup, null);
 
-        TextView tvTopDescription = rootView.findViewById(R.id.tv_top_description);
-        TextView tvBottomDescription = rootView.findViewById(R.id.tv_bottom_description);
+        TextView tvCompany = rootView.findViewById(R.id.tv_popup_company);
+        TextView tvName = rootView.findViewById(R.id.tv_popup_name);
+        TextView tvTeam = rootView.findViewById(R.id.tv_popup_team);
+        TextView tvWork = rootView.findViewById(R.id.tv_popup_work);
         ImageButton btnClose = rootView.findViewById(R.id.btn_close);
 
-        if (!TextUtils.isEmpty(team)) {
-            tvTopDescription.setText(team);
+        if (!TextUtils.isEmpty(company)) {
+            tvCompany.setText(company);
         }
 
         if (!TextUtils.isEmpty(name)) {
-            tvBottomDescription.setText(name);
+            tvName.setText(name);
+        }
+
+        if (!TextUtils.isEmpty(team)) {
+            tvTeam.setText(team);
+        }
+
+        if (!TextUtils.isEmpty(work)) {
+            tvWork.setText(work);
+        }else{
+            tvWork.setText("-");
         }
 
         btnClose.setOnClickListener(new View.OnClickListener() {
