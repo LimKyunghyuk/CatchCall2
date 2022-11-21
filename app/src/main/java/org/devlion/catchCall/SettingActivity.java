@@ -65,17 +65,9 @@ public class SettingActivity extends AppCompatActivity {
                 Log.d(TAG, "SERVER_URL1:" + serverUrl);
                 Log.d(TAG, "SERVER_KEY1:" + serverKey);
 
-//                SharedPreferences sharedPref = getSharedPreferences(TAG, MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPref.edit();
-//                editor.putString(SERVER_URL, edtServerUrl.getText().toString());
-//                editor.putString(SERVER_KEY, edtServerKey.getText().toString());
-//                editor.commit();
-//
-//                String serverUrl = sharedPref.getString(SERVER_URL, "");
-//                String serverKey = sharedPref.getString(SERVER_KEY, "");
-
                 SharedPrefHelper.getInstance(getApplicationContext()).setString(SharedPrefHelper.SERVER_URL, serverUrl);
                 SharedPrefHelper.getInstance(getApplicationContext()).setString(SharedPrefHelper.SERVER_KEY, serverKey);
+
                 Log.d(TAG, "SERVER_URL2:" + serverUrl);
                 Log.d(TAG, "SERVER_KEY2:" + serverKey);
                 /*
@@ -94,6 +86,27 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Popup.getInstance(getApplicationContext()).open("테스트 회사","장보고 책임", "포세이돈팀", "담당 업무");
+            }
+        });
+
+
+        EditText edtCnumber = findViewById(R.id.edt_cnumber);
+        EditText edtEnumber = findViewById(R.id.edt_enumber);
+
+        Button btnSearch = findViewById(R.id.btn_search);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "검색..", Toast.LENGTH_SHORT).show();
+
+                String cNumber = edtCnumber.getText().toString();
+                String eNumber = edtEnumber.getText().toString();
+                Log.d(TAG, "cNumber:" + cNumber);
+                Log.d(TAG, "eNumber:" + eNumber);
+
+                CatchCall catchCall = new CatchCall(getApplicationContext());
+                catchCall.check(cNumber, eNumber);
             }
         });
 
