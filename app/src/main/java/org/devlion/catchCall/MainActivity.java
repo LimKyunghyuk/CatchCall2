@@ -3,6 +3,7 @@ package org.devlion.catchCall;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.devlion.util.cmn.HttpHelper;
+import org.devlion.util.db.DBHelper;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -34,14 +36,25 @@ public class MainActivity extends AppCompatActivity {
     final String TAG = "CATCH_CALL";
     TextView txv;
 
+
+    private DBHelper dbHelper;
+
+    void init(){
+        dbHelper = new DBHelper(this);
+        dbHelper.open();
+        dbHelper.create();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         checkPermission();
         checkPermissionDrawOverlay();
 
+        init();
 
         ImageButton btnConfig = findViewById(R.id.btn_setting);
         btnConfig.setOnClickListener(new View.OnClickListener() {
@@ -53,10 +66,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        // ListView 세팅
+
         List<String> list = new ArrayList<>();
-        list.add("사과");
-        list.add("딸기");
-        list.add("바나나");
+
+        Cursor csr = dbHelper.selectColumns();
+        if(0 < csr.getCount()){
+            while(csr.moveToNext()){
+
+                String logId = csr.getString(0);
+                String logDt = csr.getString(1);
+                String cellPhone = csr.getString(2);
+                String companyPhone = csr.getString(3);
+                String companyCode = csr.getString(4);
+                String addisplayName = csr.getString(5);
+                String chargeJob = csr.getString(6);
+                String mainDeptCode = csr.getString(7);
+                String companyName = csr.getString(8);
+                String deptName = csr.getString(9);
+
+                list.add(logDt + " : " + addisplayName + "\n" + deptName);
+
+            }
+        }
 
         ListView listView = findViewById(R.id.list);
         ArrayAdapter<String> adpater = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
@@ -70,58 +103,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        /*
-        HttpHelper httpHelper = new HttpHelper();
-        httpHelper.setHttpListener(new HttpHelper.HttpListener() {
-            @Override
-            public void onResponse(int resCode, JSONObject res) {
-                Log.d(TAG, "resCode: " + resCode + ", res: " + res);
-                txv.setText("JSON: " + res);
-            }
-        });
-
-        txv = findViewById(R.id.tv_hello);
-        txv.setText("Hello");
-
-        Button btnRequest = findViewById(R.id.btn_request);
-        btnRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Click!", Toast.LENGTH_SHORT).show();
-
-                Map<String, String> req = new HashMap<String, String>();
-                req.put("option", "01012341234");
-                httpHelper.doGet(req);
-            }
-        });
-
-        Button btnPopupOpen = findViewById(R.id.btn_popup_open);
-        btnPopupOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Popup.getInstance(getApplicationContext()).open("1","2");
-            }
-        });
-
-        Button btnPopupClose = findViewById(R.id.btn_popup_close);
-        btnPopupClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Popup.getInstance(getApplicationContext()).close();
-            }
-        });
-
-
-        Button crashButton = findViewById(R.id.btn_crash);
-        crashButton.setText("Test Crash");
-        crashButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                throw new RuntimeException("Test Crash"); // Force a crash
-            }
-        });
-
-         */
     }
 
     public void checkPermission(){

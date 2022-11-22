@@ -1,9 +1,12 @@
 package org.devlion.catchCall;
 
 import android.content.Context;
+import android.provider.CallLog;
 import android.util.Log;
 
 import org.devlion.util.cmn.HttpHelper;
+import org.devlion.util.db.CallLogVo;
+import org.devlion.util.db.DBHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,14 +18,22 @@ import java.util.Map;
 public class CatchCall implements HttpHelper.HttpListener {
 
     final String TAG = "CATCH_CALL";
-
+    private DBHelper dbHelper;
     Context context;
+
     CatchCall(Context context){
         this.context = context;
+        init();
+    }
+
+    void init(){
+        dbHelper = new DBHelper(context);
+        dbHelper.open();
+        dbHelper.create();
     }
 
     public void check(String phoneNumber){
-
+        Log.d(TAG, "check():" + phoneNumber);
         List<String> numberList = getTwoNumberFromBack(phoneNumber);
         if(numberList.size() < 3) return;
 
@@ -99,10 +110,22 @@ public class CatchCall implements HttpHelper.HttpListener {
                 String companyName = (String)res.get("companyName");
                 String deptName = (String)res.get("deptName");
 
+                // 팝업 오픈
                 Popup p = Popup.getInstance(context);
                 Log.d(TAG, "open p: " + p);
-
                 p.open(companyName, addisplayName, deptName, chargeJob);
+
+                // DB 저장
+                CallLogVo callLogVo = new CallLogVo();
+                callLogVo.setCellPhone(cellPhone);
+                callLogVo.setCompanyPhone(companyPhone);
+                callLogVo.setCompanyCode(companyCode);
+                callLogVo.setAddisplayName(addisplayName);
+                callLogVo.setChargeJob(chargeJob);
+                callLogVo.setMainDeptCode(mainDeptCode);
+                callLogVo.setCompanyName(companyName);
+                callLogVo.setDeptName(deptName);
+                dbHelper.insert(callLogVo);
             }
         } catch (JSONException e) {
             e.printStackTrace();
