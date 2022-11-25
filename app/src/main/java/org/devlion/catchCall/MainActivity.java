@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.devlion.util.cmn.HttpHelper;
 import org.devlion.util.db.DBHelper;
@@ -31,11 +32,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     final String TAG = "CATCH_CALL";
     TextView txv;
 
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private DBHelper dbHelper;
 
@@ -56,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
+        swipeRefreshLayout = findViewById(R.id.swipeLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         ImageButton btnConfig = findViewById(R.id.btn_setting);
         btnConfig.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onResume()");
         super.onResume();
 
+        updateLayoutView();
+    }
 
+    void updateLayoutView(){
         // ListView 세팅
         List<String> list = new ArrayList<>();
 
@@ -107,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "List position : " + position + ", data : " + data , Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     public void checkPermission(){
@@ -134,4 +141,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 당겨서 새로 고침 이벤트 추가
+    @Override
+    public void onRefresh() {
+        Log.d(TAG, "새로 고침");
+        Toast.makeText(this, "새로 고침", Toast.LENGTH_SHORT).show();
+
+        updateLayoutView();
+        swipeRefreshLayout.setRefreshing(false);
+    }
 }
