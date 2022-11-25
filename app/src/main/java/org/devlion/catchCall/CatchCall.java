@@ -81,6 +81,10 @@ public class CatchCall implements HttpHelper.HttpListener {
 
     }
 
+    void deleteCallLog(){
+        dbHelper.deleteAll();
+    }
+
     List<String> getTwoNumberFromBack(String phoneNumber){
 
         List<String> numberList = new ArrayList<String>();
@@ -92,6 +96,7 @@ public class CatchCall implements HttpHelper.HttpListener {
 
         return numberList;
     }
+
 
 
     @Override

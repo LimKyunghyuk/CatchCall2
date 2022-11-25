@@ -6,11 +6,14 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DBHelper extends DBConfig {
+
+    final String TAG = "CATCH_CALL";
 
     private SQLiteDatabase db;
     private DatabaseHelper helper;
@@ -35,6 +38,7 @@ public class DBHelper extends DBConfig {
     }
 
     public long insert(CallLogVo callLogVo){
+        Log.d(TAG, "insert()");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -61,6 +65,12 @@ public class DBHelper extends DBConfig {
     public void deleteLog(String logId){
 
         String query = "DELETE FROM " + TABLE_NAME + " WHERE LOG_ID = '" + logId + "';";
+        db.execSQL(query);
+    }
+
+    public void deleteAll(){
+
+        String query = "DELETE FROM " + TABLE_NAME + ";";
         db.execSQL(query);
     }
 

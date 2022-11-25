@@ -110,6 +110,21 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
+        Button btnDeleteCallLog = findViewById(R.id.btn_delete_call_log);
+        btnDeleteCallLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "전화 기록을 삭제합니다.", Toast.LENGTH_SHORT).show();
+
+                CatchCall catchCall = new CatchCall(getApplicationContext());
+                catchCall.deleteCallLog();
+            }
+        });
+
+
+
+
     }
 
 

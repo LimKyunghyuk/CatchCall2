@@ -98,6 +98,15 @@
                     android:contentDescription="설정" />
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btn_delete_call_log"
+                android:layout_width="120sp"
+                android:layout_height="40sp"
+                android:text="콜 로그 삭제"
+                android:textColor="@color/color_4"
+                android:background="@drawable/btn_blue"
+                android:contentDescription="콜 로그 삭제" />
+
         </LinearLayout>
 
     </ScrollView>
