@@ -125,23 +125,21 @@ public class HttpHelper{
                     res = response.toString();
                 }
 
-                Log.d(TAG, "==================");
-                Log.d(TAG, res);
+//                Log.d(TAG, "==================");
+//                Log.d(TAG, res);
+//
+//                Message msg = handler.obtainMessage();
+//
+//                msg.obj = new JSONObject(res);
+//                msg.arg1 = resCode;
+//                handler.sendMessage(msg);
 
-                Message msg = handler.obtainMessage();
-
-                msg.obj = new JSONObject(res);
-                msg.arg1 = resCode;
-                handler.sendMessage(msg);
-
-                conn.disconnect();
+//                conn.disconnect();
 
             } catch (MalformedURLException e) {
                 resCode = -1;
             } catch (IOException e) {
                 resCode = -2;
-            } catch (JSONException e) {
-                resCode = -3;
             } finally {
 
                 if(conn != null){
