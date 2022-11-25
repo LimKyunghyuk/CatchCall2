@@ -65,10 +65,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume()");
+        super.onResume();
 
 
         // ListView 세팅
-
         List<String> list = new ArrayList<>();
 
         Cursor csr = dbHelper.selectColumns();
